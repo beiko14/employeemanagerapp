@@ -13,6 +13,7 @@ import { EmployeeService } from './employee.service';
 })
 export class AppComponent implements OnInit {
   public employees: Employee[] | undefined;
+  public editEmployee: Employee | undefined;
 
   constructor(private employeeService: EmployeeService) {}
 
@@ -37,6 +38,34 @@ export class AppComponent implements OnInit {
     //close the modal after the form got submitted
     document.getElementById('add-employee-form')!.click();
     this.employeeService.addEmployees(addForm.value).subscribe(
+      (response: Employee) => {
+        console.log(response);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public onOpenModal(employee: Employee, mode: string): void{
+    const container = document.querySelector(".container");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.style.display = "none";
+    button.setAttribute("data-toggle", "modal");
+
+    if(mode === "edit"){
+      //show the saved data
+      this.editEmployee = employee;
+      button.setAttribute("data-target", "#editEmployeeModal");
+    }
+    container?.appendChild(button);
+    button.click();
+  }
+  
+  public onUpdateEmployee(employee: Employee): void{
+    this.employeeService.updateEmployees(employee).subscribe(
       (response: Employee) => {
         console.log(response);
         this.getEmployees();
