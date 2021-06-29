@@ -8,7 +8,7 @@ import { environment } from "src/environments/environment";
     providedIn: 'root'
 })
 
-// create functions which can interact with the backend (HpptRequests)
+// create functions which can interact with the backend (HttpRequests)
 
 export class EmployeeService{
     private apiServerUrl = environment.apiBaseUrl;
