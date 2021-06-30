@@ -95,4 +95,23 @@ export class AppComponent implements OnInit {
     );
   }
 
+  public searchEmployees(key: string): void{
+    const results: Employee[] = [];
+    for(const employee of this.employees!){
+      // indexOf() return -1 if no element could be found. Otherwise it returns the index of the element
+      if(employee.name.toLowerCase().indexOf(key.toLowerCase()) !== -1
+      || employee.email.toLowerCase().indexOf(key.toLowerCase()) !== -1
+      || employee.jobTitle.toLowerCase().indexOf(key.toLowerCase()) !== -1
+      || employee.phone.toLowerCase().indexOf(key.toLowerCase()) !== -1){
+        results.push(employee);
+      }
+    }
+    this.employees = results;
+
+    //possible reset
+    if(results.length === 0 || !key){
+      this.getEmployees();
+    }
+  }
+
 }
